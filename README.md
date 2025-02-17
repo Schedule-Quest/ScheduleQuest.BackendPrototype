@@ -1,1 +1,2 @@
 # ScheduleQuest.BackendPrototype
+Initial commit
