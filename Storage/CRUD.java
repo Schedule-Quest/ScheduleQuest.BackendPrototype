@@ -18,7 +18,7 @@ public class CRUD {
      * @param connection The DB in question.
      * @throws SQLException
      */
-    public void AddTaskToDB(Task task, Connection connection) throws SQLException {
+    public void addTaskToDB(Task task, Connection connection) throws SQLException {
         String addQuery = "INSERT INTO Task (taskname, internalId, difficulty, pointvalue) VALUES (?, ?, CAST(? AS difficulty), ?)";
 
         PreparedStatement addStatement = connection.prepareStatement(addQuery);
@@ -38,7 +38,7 @@ public class CRUD {
      * @return Returns it in a list.
      * @throws SQLException
      */
-    public List<Task> GetAllTasksDB(Connection connection) throws SQLException {
+    public List<Task> getAllTasksDB(Connection connection) throws SQLException {
         List<Task> allTasks = new ArrayList<>();
 
         String query = "SELECT taskname, difficulty, pointvalue FROM Task";
@@ -64,7 +64,7 @@ public class CRUD {
      * @throws SQLException
      */
 
-    public boolean CheckIfTaskExists(Task task, Connection connection) throws SQLException {
+    public boolean checkIfTaskExists(Task task, Connection connection) throws SQLException {
         String query = "SELECT internalid, taskname FROM Task WHERE internalId = ?";
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -89,10 +89,10 @@ public class CRUD {
      * @param connection
      * @throws SQLException
      */
-    public void DeleteTaskFromDB(Task task, Connection connection) throws SQLException {
+    public void deleteTaskFromDB(Task task, Connection connection) throws SQLException {
         String query = "DELETE FROM Task WHERE internalId = ?";
 
-        if (CheckIfTaskExists(task, connection)) {
+        if (checkIfTaskExists(task, connection)) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, task.getInternalId());
             preparedStatement.executeUpdate();
