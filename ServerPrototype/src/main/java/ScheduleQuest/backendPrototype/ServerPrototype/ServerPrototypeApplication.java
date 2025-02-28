@@ -16,7 +16,7 @@ import static ScheduleQuest.backendPrototype.ServerPrototype.Database.PostgreDB.
 public class ServerPrototypeApplication {
 
 	public static void main(String[] args) throws SQLException {
-		Connection connection = connectToDB("postgres", "postgres", "Ern39sur");
+		Connection connection = connectToDB("postgres", "postgres", "password");
 		Task task = new Task(1,"Text Maxee", Difficulty.HARD, 100);
 		TaskCRUD taskCRUD = new TaskCRUD();
 		taskCRUD.getById(1,connection);
