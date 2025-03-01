@@ -6,6 +6,7 @@ import ScheduleQuest.backendPrototype.ServerPrototype.Model.Task;
 import ScheduleQuest.backendPrototype.ServerPrototype.Service.TaskCRUD;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,12 +17,7 @@ import static ScheduleQuest.backendPrototype.ServerPrototype.Database.PostgreDB.
 public class ServerPrototypeApplication {
 
 	public static void main(String[] args) throws SQLException {
-		Connection connection = connectToDB("postgres", "postgres", "password");
-		Task task = new Task(1,"Text Maxee", Difficulty.HARD, 100);
-		TaskCRUD taskCRUD = new TaskCRUD();
-		taskCRUD.getById(1,connection);
-
-
+		connectToDB();
 		SpringApplication.run(ServerPrototypeApplication.class, args);
 
 	}
