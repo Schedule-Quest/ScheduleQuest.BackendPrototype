@@ -26,7 +26,7 @@ public class TaskController {
 
     @GetMapping
     public List<Task> getAllTasks() {
-        try (Connection connection = PostgreDB.connectToDB("postgres", "postgres", "password")) {
+        try (Connection connection = PostgreDB.connectToDB()) {
             return taskCRUD.getAllTasks(connection);
         } catch (SQLException e) {
             throw new RuntimeException("Database error: " + e.getMessage(), e);
