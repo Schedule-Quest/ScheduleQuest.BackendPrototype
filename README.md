@@ -1,6 +1,6 @@
 # ScheduleQuest.BackendPrototype
-> **INFO:** This repisotory contains prototypes and research results for
-> the scheduleQuest backend. While an effort is made to properly document
+> **INFO:** This repository contains prototypes and research results for
+> the ScheduleQuest backend. While an effort is made to properly document
 > the code and methods used, this project as a whole is not intended for further
 > use, and should only be used for reference.
 
