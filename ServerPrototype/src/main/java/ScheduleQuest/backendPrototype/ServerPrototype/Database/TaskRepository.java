@@ -10,18 +10,18 @@ import java.util.List;
 public class TaskRepository implements BaseRepository<Task> {
 
     @Override
-    public void create(Task entity, Connection connection) throws SQLException {
+    public void create(Task task, Connection connection) throws SQLException {
         String addQuery = "INSERT INTO Task (taskname, internalId, difficulty, pointvalue) VALUES (?, ?, CAST(? AS difficulty), ?)";
 
         PreparedStatement addStatement = connection.prepareStatement(addQuery);
 
-        addStatement.setString(1, entity.getTaskName());
-        addStatement.setInt(2, entity.getInternalId());
-        addStatement.setObject(3, entity.getDifficulty().name(), Types.OTHER);
-        addStatement.setInt(4, entity.getPointValue());
+        addStatement.setString(1, task.getTaskName());
+        addStatement.setInt(2, task.getInternalId());
+        addStatement.setObject(3, task.getDifficulty().name(), Types.OTHER);
+        addStatement.setInt(4, task.getPointValue());
 
         addStatement.executeUpdate();
-        System.out.println(" " + entity.getTaskName() + " " + "has been added");
+        System.out.println(" " + task.getTaskName() + " " + "has been added");
     }
 
     @Override

@@ -26,11 +26,10 @@ public class PostgreDB {
     public static Connection connectToDB() throws SQLException {
         String dbUrl = loadEnv("DB_URL");
         Properties connectionProps = createConnectionProps();
-
         Connection conn = null;
-
         try {
             conn = DriverManager.getConnection(dbUrl, connectionProps);
+            DBAssets.initializeSchema(conn);
             System.out.println("Connection Established");
         } catch (SQLException e) {
             System.err.println("Connection failed: " + e.getMessage());
