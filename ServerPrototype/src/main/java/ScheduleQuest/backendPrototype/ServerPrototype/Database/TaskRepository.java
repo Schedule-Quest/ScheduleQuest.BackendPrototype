@@ -2,29 +2,28 @@ package ScheduleQuest.backendPrototype.ServerPrototype.Database;
 
 import ScheduleQuest.backendPrototype.ServerPrototype.Model.Difficulty;
 import ScheduleQuest.backendPrototype.ServerPrototype.Model.Task;
+import ScheduleQuest.backendPrototype.ServerPrototype.Model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskRepository implements BaseRepository<Task> {
+public class TaskRepository {
 
-    @Override
-    public void create(Task entity, Connection connection) throws SQLException {
+    public void create(int userId, Task task, Connection connection) throws SQLException {
         String addQuery = "INSERT INTO Task (taskname, internalId, difficulty, pointvalue) VALUES (?, ?, CAST(? AS difficulty), ?)";
 
         PreparedStatement addStatement = connection.prepareStatement(addQuery);
 
-        addStatement.setString(1, entity.getTaskName());
-        addStatement.setInt(2, entity.getInternalId());
-        addStatement.setObject(3, entity.getDifficulty().name(), Types.OTHER);
-        addStatement.setInt(4, entity.getPointValue());
+        addStatement.setString(1, task.getTaskName());
+        addStatement.setInt(2, userId);
+        addStatement.setObject(3, task.getDifficulty().name(), Types.OTHER);
+        addStatement.setInt(4, task.getPointValue());
 
         addStatement.executeUpdate();
-        System.out.println(" " + entity.getTaskName() + " " + "has been added");
+        System.out.println(" " + task.getTaskName() + " " + " has been added");
     }
 
-    @Override
     public Task getById(int id, Connection connection) throws SQLException {
         Task task = null;
         String sql = "SELECT * FROM Task WHERE internalid = ?";
@@ -44,7 +43,6 @@ public class TaskRepository implements BaseRepository<Task> {
         return task;
     }
 
-    @Override
     public void update(int id, Connection connection) throws SQLException {
 
     }

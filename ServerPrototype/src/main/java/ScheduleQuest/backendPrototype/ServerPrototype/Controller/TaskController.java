@@ -3,24 +3,23 @@ package ScheduleQuest.backendPrototype.ServerPrototype.Controller;
 import ScheduleQuest.backendPrototype.ServerPrototype.Database.PostgreDB;
 import ScheduleQuest.backendPrototype.ServerPrototype.Model.Task;
 import ScheduleQuest.backendPrototype.ServerPrototype.Service.TaskCRUD;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import ScheduleQuest.backendPrototype.ServerPrototype.Validation.UserValidation;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-
-import static ScheduleQuest.backendPrototype.ServerPrototype.Database.PostgreDB.connectToDB;
 
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
     private final TaskCRUD taskCRUD;
 
-    public TaskController(TaskCRUD taskCRUD) {
+    private final UserValidation userValidation;
+
+    public TaskController(TaskCRUD taskCRUD, UserValidation userValidation) {
         this.taskCRUD = taskCRUD;
+        this.userValidation = userValidation;
     }
 
 
@@ -32,4 +31,17 @@ public class TaskController {
             throw new RuntimeException("Database error: " + e.getMessage(), e);
         }
     }
+
+    @PostMapping("/{userId}/create")
+    public Task createTaskForUser(@PathVariable("userId") int userId, @RequestBody Task task) {
+        try (Connection connection = PostgreDB.connectToDB()) {
+            if (userValidation.verifyUserExists(userId, connection)) {
+                return taskCRUD.create(userId, task, connection);
+            }
+            throw new RuntimeException("User with ID " + userId + " does not exist");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

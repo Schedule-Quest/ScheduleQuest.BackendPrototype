@@ -8,30 +8,29 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 @Service
-public class TaskCRUD implements BaseCRUD<Task> {
+public class TaskCRUD {
 
-    @Override
-    public void create(Task task, Connection connection) throws SQLException {
+
+    public Task create(int userId, Task task, Connection connection) throws SQLException {
         if (task == null ||  connection == null) {
             throw new IllegalArgumentException("Task and Connection must not be null");
         }
 
         TaskRepository taskRepository = new TaskRepository();
         try {
-            taskRepository.create(task, connection);
+            taskRepository.create(userId, task, connection);
         } catch(SQLException e) {
             throw new SQLException("Error creating task in the repository: " + e.getMessage(), e);
         }
+        return task;
     }
 
-    @Override
     public boolean getById(int id, Connection connection) throws SQLException {
         TaskRepository taskRepository = new TaskRepository();
         taskRepository.getById(id, connection);
         return false;
     }
 
-    @Override
     public void delete(int id, Connection connection) throws SQLException {
         if (id == 0 || connection == null) {
             throw new IllegalArgumentException("Task and Connection must not be null");
