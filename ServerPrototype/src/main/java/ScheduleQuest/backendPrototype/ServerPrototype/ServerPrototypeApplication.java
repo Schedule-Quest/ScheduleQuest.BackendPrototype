@@ -20,13 +20,8 @@ import static ScheduleQuest.backendPrototype.ServerPrototype.Database.PostgreDB.
 public class ServerPrototypeApplication {
 
 	public static void main(String[] args) throws SQLException {
-
-		User user = new User(1, "Amin", "Yippie123");
-		UserCRUD userCRUD = new UserCRUD();
-		userCRUD.create(user, connectToDB());
-
+		connectToDB();
 		SpringApplication.run(ServerPrototypeApplication.class, args);
-
 	}
 
 }
