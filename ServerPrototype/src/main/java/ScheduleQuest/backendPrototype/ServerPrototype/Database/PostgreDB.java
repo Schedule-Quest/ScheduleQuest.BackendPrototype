@@ -24,6 +24,7 @@ public class PostgreDB {
         try (Connection conn = dataSource.getConnection()) {
             DBAssets.initializeSchema(conn);
             System.out.println("Schema initialized");
+
         } catch (SQLException e) {
             System.out.println("Schema initialization failed");
             throw new RuntimeException(e);

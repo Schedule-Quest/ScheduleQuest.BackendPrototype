@@ -5,6 +5,7 @@ import ScheduleQuest.backendPrototype.ServerPrototype.Model.Task;
 import ScheduleQuest.backendPrototype.ServerPrototype.Model.User;
 import org.springframework.stereotype.Repository;
 
+
 import javax.sql.DataSource;
 import java.lang.reflect.Type;
 import java.sql.*;
@@ -21,6 +22,11 @@ public class TaskRepository {
     }
 
     public void create(int userId, Task task) throws SQLException {
+
+public class TaskRepository {
+
+    public void create(int userId, Task task, Connection connection) throws SQLException {
+
         String addQuery = "INSERT INTO Task (taskname, internalId, difficulty, pointvalue) VALUES (?, ?, CAST(? AS difficulty), ?)";
 
         try (Connection connection = dataSource.getConnection();
@@ -57,7 +63,6 @@ public class TaskRepository {
         }
         return task;
     }
-
 
     public Task getById(int id, Connection connection) throws SQLException {
         Task task = null;

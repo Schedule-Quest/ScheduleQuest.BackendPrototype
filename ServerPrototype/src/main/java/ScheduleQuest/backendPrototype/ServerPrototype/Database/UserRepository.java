@@ -3,7 +3,6 @@ package ScheduleQuest.backendPrototype.ServerPrototype.Database;
 import ScheduleQuest.backendPrototype.ServerPrototype.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +11,7 @@ import java.util.Base64;
 
 import static ScheduleQuest.backendPrototype.ServerPrototype.Utils.PasswordUtils.generateSalt;
 import static ScheduleQuest.backendPrototype.ServerPrototype.Utils.PasswordUtils.hashPassword;
+
 @Repository
 public class UserRepository{
 

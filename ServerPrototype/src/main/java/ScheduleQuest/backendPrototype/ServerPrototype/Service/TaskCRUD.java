@@ -31,6 +31,7 @@ public class TaskCRUD {
 
 
    /* public void delete(int id, Connection connection) throws SQLException {
+
         if (id == 0 || connection == null) {
             throw new IllegalArgumentException("Task and Connection must not be null");
         }

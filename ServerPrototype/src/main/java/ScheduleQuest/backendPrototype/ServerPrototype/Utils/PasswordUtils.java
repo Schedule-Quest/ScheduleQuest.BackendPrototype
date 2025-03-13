@@ -1,7 +1,4 @@
 package ScheduleQuest.backendPrototype.ServerPrototype.Utils;
-
-import io.github.cdimascio.dotenv.Dotenv;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
