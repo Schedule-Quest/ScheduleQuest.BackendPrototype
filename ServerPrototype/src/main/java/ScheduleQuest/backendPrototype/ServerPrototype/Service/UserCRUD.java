@@ -9,19 +9,19 @@ import java.sql.SQLException;
 
 @Service
 public class UserCRUD {
-    public User create(User user, Connection connection) throws SQLException {
-        if(user == null || connection == null) {
-            throw new IllegalArgumentException("Task and Connection must not be null");
-        }
-        UserRepository userRepository = new UserRepository();
-        try {
-            userRepository.create(user, connection);
-        } catch (SQLException e) {
-            throw new SQLException("Error creating task in the repository: " + e.getMessage(), e);
-        }
-        return user;
+    private final UserRepository userRepository;
+
+    public UserCRUD(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
+    public User create(User user) throws SQLException {
+        if(user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        userRepository.create(user);
+        return user;
+    }
 
     public boolean getById(int id, Connection connection) throws SQLException {
         return false;

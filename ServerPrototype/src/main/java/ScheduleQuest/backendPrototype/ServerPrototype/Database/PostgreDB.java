@@ -1,40 +1,34 @@
 package ScheduleQuest.backendPrototype.ServerPrototype.Database;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
-import io.github.cdimascio.dotenv.Dotenv;
+import ScheduleQuest.backendPrototype.ServerPrototype.Utils.EnvRead;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
+@Configuration
 public class PostgreDB {
+    @Bean
+    public DataSource dataSource() {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(EnvRead.loadEnv("DB_URL"));
+        config.setUsername(EnvRead.loadEnv("DB_USER"));
+        config.setPassword(EnvRead.loadEnv("DB_PASSWORD"));
 
-    private static final Dotenv dotenv = Dotenv.load();
+        HikariDataSource dataSource = new HikariDataSource(config);
 
-    public static String loadEnv(String key) {
-        return dotenv.get(key);
-    }
-
-    public static Properties createConnectionProps() {
-        Properties connectionProps = new Properties();
-        connectionProps.put("user", loadEnv("DB_USER"));
-        connectionProps.put("password", loadEnv("DB_PASSWORD"));
-        return connectionProps;
-    }
-
-    public static Connection connectToDB() throws SQLException {
-        String dbUrl = loadEnv("DB_URL");
-        Properties connectionProps = createConnectionProps();
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(dbUrl, connectionProps);
+        try (Connection conn = dataSource.getConnection()) {
             DBAssets.initializeSchema(conn);
-            System.out.println("Connection Established");
+            System.out.println("Schema initialized");
         } catch (SQLException e) {
-            System.err.println("Connection failed: " + e.getMessage());
-            throw e;
+            System.out.println("Schema initialization failed");
+            throw new RuntimeException(e);
         }
-        return conn;
+
+        return dataSource;
     }
 }
