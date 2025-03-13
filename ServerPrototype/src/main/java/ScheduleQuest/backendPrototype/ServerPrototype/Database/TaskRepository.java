@@ -3,25 +3,65 @@ package ScheduleQuest.backendPrototype.ServerPrototype.Database;
 import ScheduleQuest.backendPrototype.ServerPrototype.Model.Difficulty;
 import ScheduleQuest.backendPrototype.ServerPrototype.Model.Task;
 import ScheduleQuest.backendPrototype.ServerPrototype.Model.User;
+import org.springframework.stereotype.Repository;
 
+
+import javax.sql.DataSource;
+import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
+public class TaskRepository {
+
+    private final DataSource dataSource;
+
+    public TaskRepository(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public void create(int userId, Task task) throws SQLException {
+
 public class TaskRepository {
 
     public void create(int userId, Task task, Connection connection) throws SQLException {
+
         String addQuery = "INSERT INTO Task (taskname, internalId, difficulty, pointvalue) VALUES (?, ?, CAST(? AS difficulty), ?)";
 
-        PreparedStatement addStatement = connection.prepareStatement(addQuery);
+        try (Connection connection = dataSource.getConnection();
+            PreparedStatement addStatement = connection.prepareStatement(addQuery)) {
+            addStatement.setString(1, task.getTaskName());
+            addStatement.setInt(2, userId);
+            addStatement.setObject(3, task.getDifficulty().name(), Types.OTHER);
+            addStatement.setInt(4, task.getPointValue());
+            addStatement.executeUpdate();
+            System.out.println(task.getTaskName() + " " + "has been added");
+        } catch (SQLException e) {
+            System.err.println("A problem has occurred adding the task: " + e.getMessage());        }
+    }
 
-        addStatement.setString(1, task.getTaskName());
-        addStatement.setInt(2, userId);
-        addStatement.setObject(3, task.getDifficulty().name(), Types.OTHER);
-        addStatement.setInt(4, task.getPointValue());
+    public Task getById(int taskId) throws SQLException {
+        Task task = null;
+        String getQuery = "SELECT * FROM Task WHERE internalId = ?";
 
-        addStatement.executeUpdate();
-        System.out.println(" " + task.getTaskName() + " " + " has been added");
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement getStatement = connection.prepareStatement(getQuery)) {
+            getStatement.setInt(1, taskId);
+            ResultSet rs = getStatement.executeQuery();
+
+            if (rs.next()) {
+                Difficulty difficulty = Difficulty.valueOf(rs.getString("difficulty"));
+                task = new Task(
+                        rs.getInt("id"),
+                        rs.getString("taskname"),
+                        difficulty,
+                        rs.getInt("pointvalue"));
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error fetching task by id", e);
+        }
+        return task;
     }
 
     public Task getById(int id, Connection connection) throws SQLException {

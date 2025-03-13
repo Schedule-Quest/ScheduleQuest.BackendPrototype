@@ -1,5 +1,4 @@
 package ScheduleQuest.backendPrototype.ServerPrototype.Utils;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -24,5 +23,4 @@ public class PasswordUtils {
             throw new RuntimeException("SHA-256 is not available", e);
         }
     }
-
 }

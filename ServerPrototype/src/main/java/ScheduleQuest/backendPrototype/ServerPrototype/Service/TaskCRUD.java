@@ -10,28 +10,28 @@ import java.util.List;
 @Service
 public class TaskCRUD {
 
+    private final TaskRepository taskRepository;
 
-    public Task create(int userId, Task task, Connection connection) throws SQLException {
-        if (task == null ||  connection == null) {
-            throw new IllegalArgumentException("Task and Connection must not be null");
-        }
+    public TaskCRUD(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
-        TaskRepository taskRepository = new TaskRepository();
-        try {
-            taskRepository.create(userId, task, connection);
-        } catch(SQLException e) {
-            throw new SQLException("Error creating task in the repository: " + e.getMessage(), e);
+    public Task create(int userId, Task task) throws SQLException {
+        if (task == null) {
+            throw new IllegalArgumentException("Task cannot be null");
         }
+        taskRepository.create(userId, task);
+
         return task;
     }
 
-    public boolean getById(int id, Connection connection) throws SQLException {
-        TaskRepository taskRepository = new TaskRepository();
-        taskRepository.getById(id, connection);
-        return false;
+    public Task getbyId(int taskId) throws SQLException {
+        return taskRepository.getById(taskId);
     }
 
-    public void delete(int id, Connection connection) throws SQLException {
+
+   /* public void delete(int id, Connection connection) throws SQLException {
+
         if (id == 0 || connection == null) {
             throw new IllegalArgumentException("Task and Connection must not be null");
         }
@@ -44,7 +44,7 @@ public class TaskCRUD {
         }
     }
 
-    public List<Task> getAllTasks(Connection connection) throws SQLException {
+    /*public List<Task> getAllTasks(Connection connection) throws SQLException {
         TaskRepository taskRepository = new TaskRepository();
         List<Task> queriedTasks = taskRepository.getAllTasksDB(connection);
 
@@ -52,5 +52,5 @@ public class TaskCRUD {
             System.out.println(task.getTaskName() + " - " + task.getDifficulty() + " - " + task.getPointValue());
         }
         return queriedTasks;
-    }
+    } */
 }
