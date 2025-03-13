@@ -2,17 +2,14 @@ package ScheduleQuest.backendPrototype.ServerPrototype.Database;
 
 import ScheduleQuest.backendPrototype.ServerPrototype.Model.Difficulty;
 import ScheduleQuest.backendPrototype.ServerPrototype.Model.Task;
-import ScheduleQuest.backendPrototype.ServerPrototype.Model.User;
 import org.springframework.stereotype.Repository;
-
-
 import javax.sql.DataSource;
-import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+
 public class TaskRepository {
 
     private final DataSource dataSource;
@@ -23,14 +20,10 @@ public class TaskRepository {
 
     public void create(int userId, Task task) throws SQLException {
 
-public class TaskRepository {
-
-    public void create(int userId, Task task, Connection connection) throws SQLException {
-
         String addQuery = "INSERT INTO Task (taskname, internalId, difficulty, pointvalue) VALUES (?, ?, CAST(? AS difficulty), ?)";
 
         try (Connection connection = dataSource.getConnection();
-            PreparedStatement addStatement = connection.prepareStatement(addQuery)) {
+             PreparedStatement addStatement = connection.prepareStatement(addQuery)) {
             addStatement.setString(1, task.getTaskName());
             addStatement.setInt(2, userId);
             addStatement.setObject(3, task.getDifficulty().name(), Types.OTHER);

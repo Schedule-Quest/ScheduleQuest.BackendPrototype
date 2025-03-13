@@ -26,12 +26,5 @@ public class UserController {
     public User createUser(@RequestBody User user) throws SQLException {
         return userCRUD.create(user);
 
-
-    public User createUser(@RequestBody User user) {
-        try (Connection connection = PostgreDB.connectToDB()) {
-            return userCRUD.create(user, connection);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
