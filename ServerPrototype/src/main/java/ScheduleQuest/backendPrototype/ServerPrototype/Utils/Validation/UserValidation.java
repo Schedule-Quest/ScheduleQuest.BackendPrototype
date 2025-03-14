@@ -1,4 +1,4 @@
-package ScheduleQuest.backendPrototype.ServerPrototype.Validation;
+package ScheduleQuest.backendPrototype.ServerPrototype.Utils.Validation;
 
 import org.springframework.stereotype.Service;
 

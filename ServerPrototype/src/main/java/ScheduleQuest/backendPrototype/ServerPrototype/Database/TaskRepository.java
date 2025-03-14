@@ -1,12 +1,9 @@
 package ScheduleQuest.backendPrototype.ServerPrototype.Database;
 
-import ScheduleQuest.backendPrototype.ServerPrototype.Model.Difficulty;
 import ScheduleQuest.backendPrototype.ServerPrototype.Model.Task;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Repository
 
@@ -18,23 +15,28 @@ public class TaskRepository {
         this.dataSource = dataSource;
     }
 
-    public void create(int userId, Task task) throws SQLException {
 
-        String addQuery = "INSERT INTO Task (taskname, internalId, difficulty, pointvalue) VALUES (?, ?, CAST(? AS difficulty), ?)";
+
+    public void create(int userId, Task task) throws SQLException {
+        String addQuery = "INSERT INTO Tasks (userid, taskname, difficultyid, pointvalue, createdAt) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement addStatement = connection.prepareStatement(addQuery)) {
-            addStatement.setString(1, task.getTaskName());
-            addStatement.setInt(2, userId);
-            addStatement.setObject(3, task.getDifficulty().name(), Types.OTHER);
+            PreparedStatement addStatement = connection.prepareStatement(addQuery)) {
+            addStatement.setInt(1, userId);
+            addStatement.setString(2, task.getTaskName());
+            addStatement.setInt(3, task.getDifficulty());
             addStatement.setInt(4, task.getPointValue());
+            addStatement.setTimestamp(5, task.getCreatedAt());
             addStatement.executeUpdate();
-            System.out.println(task.getTaskName() + " " + "has been added");
+            System.out.println(task.getCreatedAt() + " " + "has been added");
         } catch (SQLException e) {
-            System.err.println("A problem has occurred adding the task: " + e.getMessage());        }
+            throw new SQLException(e);
+        }
     }
 
-    public Task getById(int taskId) throws SQLException {
+
+
+    /*public Task getById(int taskId) throws SQLException {
         Task task = null;
         String getQuery = "SELECT * FROM Task WHERE internalId = ?";
 
@@ -45,19 +47,14 @@ public class TaskRepository {
 
             if (rs.next()) {
                 Difficulty difficulty = Difficulty.valueOf(rs.getString("difficulty"));
-                task = new Task(
-                        rs.getInt("id"),
-                        rs.getString("taskname"),
-                        difficulty,
-                        rs.getInt("pointvalue"));
             }
         } catch (SQLException e) {
             throw new SQLException("Error fetching task by id", e);
         }
         return task;
-    }
+    } */
 
-    public Task getById(int id, Connection connection) throws SQLException {
+   /* public Task getById(int id, Connection connection) throws SQLException {
         Task task = null;
         String sql = "SELECT * FROM Task WHERE internalid = ?";
 
@@ -74,13 +71,10 @@ public class TaskRepository {
             throw new SQLException("Error fetching task by id", e);
         }
         return task;
-    }
+    } */
 
-    public void update(int id, Connection connection) throws SQLException {
 
-    }
-
-    public void delete(int id, Connection connection) throws SQLException {
+    /* public void delete(int id, Connection connection) throws SQLException {
         String query = "DELETE FROM Task WHERE internalId = ?";
         Task queriedTask = getById(id, connection);
 
@@ -92,9 +86,9 @@ public class TaskRepository {
         } else {
             System.out.println("It don't exist, my man");
         }
-    }
+    } */
 
-    public List<Task> getAllTasksDB(Connection connection) throws SQLException {
+   /* public List<Task> getAllTasksDB(Connection connection) throws SQLException {
         List<Task> allTasks = new ArrayList<>();
 
         String query = "SELECT internalid, taskname, difficulty, pointvalue FROM Task";
@@ -110,7 +104,7 @@ public class TaskRepository {
             allTasks.add(new Task(id, taskName, difficulty, pointValue));
         }
         return allTasks;
-    }
+    } */
 
 
 

@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 @Service
 public class TaskCRUD {
@@ -20,17 +24,18 @@ public class TaskCRUD {
         if (task == null) {
             throw new IllegalArgumentException("Task cannot be null");
         }
+        task.setCreatedAt(Timestamp.from(Instant.now()));
         taskRepository.create(userId, task);
 
         return task;
     }
 
-    public Task getbyId(int taskId) throws SQLException {
+   /* public Task getbyId(int taskId) throws SQLException {
         return taskRepository.getById(taskId);
-    }
+    } */
 
 
-   /* public void delete(int id, Connection connection) throws SQLException {
+   /*public void delete(int id, Connection connection) throws SQLException {
 
         if (id == 0 || connection == null) {
             throw new IllegalArgumentException("Task and Connection must not be null");
@@ -42,7 +47,7 @@ public class TaskCRUD {
         } catch (SQLException e) {
             throw new SQLException("Error creating task in the repository: " + e.getMessage(), e);
         }
-    }
+    } */
 
     /*public List<Task> getAllTasks(Connection connection) throws SQLException {
         TaskRepository taskRepository = new TaskRepository();

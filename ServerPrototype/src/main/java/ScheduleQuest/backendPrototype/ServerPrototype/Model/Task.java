@@ -1,28 +1,24 @@
 package ScheduleQuest.backendPrototype.ServerPrototype.Model;
 
-public class Task {
+import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 
-    private int internalId;
+public class Task {
 
     private String taskName;
 
-    private Difficulty difficulty;
+    private int difficulty;
     private int pointValue;
 
+    private Timestamp createdAt;
 
-    public Task(int internalId, String taskName, Difficulty difficulty, int pointValue) {
-        this.internalId = internalId;
+
+
+    public Task(int internalId, String taskName, int difficulty, int pointValue, Timestamp createdAt) {
         this.taskName = taskName;
         this.difficulty = difficulty;
         this.pointValue = pointValue;
-    }
-
-    public int getInternalId() {
-        return internalId;
-    }
-
-    public void setInternalId(int internalId) {
-        this.internalId = internalId;
+        this.createdAt = createdAt;
     }
 
     public String getTaskName() {
@@ -33,13 +29,8 @@ public class Task {
         this.taskName = taskName;
     }
 
-    public Difficulty getDifficulty() {
-        return difficulty;
-    }
 
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
-    }
+
 
     public int getPointValue() {
         return pointValue;
@@ -47,5 +38,21 @@ public class Task {
 
     public void setPointValue(int pointValue) {
         this.pointValue = pointValue;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
     }
 }

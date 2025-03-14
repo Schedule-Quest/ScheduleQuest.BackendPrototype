@@ -25,6 +25,5 @@ public class UserController {
 
     public User createUser(@RequestBody User user) throws SQLException {
         return userCRUD.create(user);
-
     }
 }
