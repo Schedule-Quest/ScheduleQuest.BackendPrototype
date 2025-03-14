@@ -25,18 +25,18 @@ public class UserRepository{
         byte[] salt = generateSalt();
         String hashedPassword = hashPassword(user.getPassWord(), salt);
         String saltString = Base64.getEncoder().encodeToString(salt);
-        String addQuery = "INSERT INTO \"user\" (internalId, username, password, salt) VALUES (?, ?, ?, ?)";
+        String addQuery = "INSERT INTO \"user\" (username, password, salt) VALUES (?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement addStatement = connection.prepareStatement(addQuery)) {
-
-            addStatement.setInt(1, user.getInternalId());
-            addStatement.setString(2, user.getUserName());
-            addStatement.setString(3, hashedPassword);
-            addStatement.setString(4, saltString);
+            addStatement.setString(1, user.getUserName());
+            addStatement.setString(2, hashedPassword);
+            addStatement.setString(3, saltString);
 
             addStatement.executeUpdate();
             System.out.println(" " + user.getUserName() + "has been added");
+        } catch (SQLException e) {
+            throw new SQLException(e);
         }
     }
 

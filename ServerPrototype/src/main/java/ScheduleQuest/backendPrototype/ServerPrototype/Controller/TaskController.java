@@ -1,14 +1,11 @@
 package ScheduleQuest.backendPrototype.ServerPrototype.Controller;
 
-import ScheduleQuest.backendPrototype.ServerPrototype.Database.PostgreDB;
 import ScheduleQuest.backendPrototype.ServerPrototype.Model.Task;
 import ScheduleQuest.backendPrototype.ServerPrototype.Service.TaskCRUD;
-import ScheduleQuest.backendPrototype.ServerPrototype.Validation.UserValidation;
+import ScheduleQuest.backendPrototype.ServerPrototype.Utils.Validation.UserValidation;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
